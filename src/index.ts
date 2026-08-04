@@ -169,9 +169,12 @@ export default function (pi: ExtensionAPI): void {
 
       await Promise.all(transportPromises);
 
-      // Auto-connect if configured
+      // Auto-connect if configured - interactive sessions only. Headless/print
+      // sessions (e.g. cron jobs) must not open messenger connections; the
+      // bridge is served by the dedicated interactive (tmux) session.
+      const isHeadless = !process.stdout.isTTY;
       const transports = transportManager.getAllTransports();
-      if (transports.length > 0 && config.autoConnect !== false) {
+      if (transports.length > 0 && config.autoConnect !== false && !isHeadless) {
         if (!acquireLock()) {
           safeUi((c) => c.ui.notify("ℹ️ msg-bridge: another instance is already connected — skipping auto-connect", "info"));
         } else {
