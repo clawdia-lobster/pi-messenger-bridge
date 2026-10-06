@@ -1,4 +1,4 @@
-import TelegramBot from "node-telegram-bot-api";
+import type TelegramBot from "node-telegram-bot-api";
 import type { ChallengeAuth } from "../auth/challenge-auth.js";
 import type { ExternalMessage } from "../types.js";
 import type { ITransportProvider } from "./interface.js";
@@ -53,6 +53,11 @@ export class TelegramProvider implements ITransportProvider {
 
   async connect(): Promise<void> {
     if (this._isConnected) return;
+
+    // Lazy import: node-telegram-bot-api drags in the end-of-life @cypress/request
+    // tree, so load it only when Telegram is actually enabled rather than on every
+    // bridge session.
+    const { default: TelegramBot } = await import("node-telegram-bot-api");
 
     this.bot = new TelegramBot(this.token, {
       polling: {

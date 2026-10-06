@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Telegram transport now lazy-loads `node-telegram-bot-api` inside `connect()` instead of importing it at module load, so its end-of-life `request` / `@cypress/request` dependency tree is no longer pulled into every bridge session (only when Telegram is actually enabled)
+
+### Security
+- Bumped `@whiskeysockets/baileys` `7.0.0-rc10` -> `7.0.0-rc14` and refreshed transitive dependencies with `npm audit fix` (audit: 37 advisories / 6 critical -> 11 / 2). The two remaining criticals are `request@2.88.2` and its `form-data` dependency, pulled in transitively by `matrix-bot-sdk` and `node-telegram-bot-api`; both upstreams still depend on the unmaintained `request`, so no in-range fix exists
+
 ## [0.4.0] - 2026-05-09
 
 ### Added

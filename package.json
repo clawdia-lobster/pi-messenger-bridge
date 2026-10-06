@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@slack/bolt": "^4.6.0",
-    "@whiskeysockets/baileys": "^7.0.0-rc.9",
+    "@whiskeysockets/baileys": "7.0.0-rc14",
     "discord.js": "^14.25.1",
     "matrix-bot-sdk": "^0.8.0",
     "node-telegram-bot-api": "^0.67.0",
